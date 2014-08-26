@@ -1,19 +1,19 @@
+var getElementsByClassName = function(className) {
+  var results = [];
 
-var getElementsByClassName = function(className){
-  console.log('begin')
-  console.log(document.body)
-  var arr = [];
-  arr.push(document.body);
+  function checkout(element) {
+    var children = element.childNodes;
 
-  for (var i = 0; i < document.body.childNodes.length; i++) {
-    var name = document.body.childNodes[i].className
-    if (typeof name != 'undefined' && name.indexOf(className) >= 0) {
-      console.log('pushing in new node')
-      arr.push(document.body.childNodes[i])
+    for(var i = 0; i < children.length; i++) {
+      if(typeof children[i].classList != 'undefined' && children[i].classList.contains(className)) {
+        results.push(children[i]);
+      }
+      if(children[i].hasChildNodes) {
+        checkout(children[i]);
+      }
     }
   }
 
-  console.log('is', arr)
-  console.log('should be:', document.getElementsByClassName('targetClassName'))
-  return arr;
+  checkout(document);
+  return results;
 };
